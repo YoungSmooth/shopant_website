@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-const _sampleVideoId = 'https://www.youtube.com/watch?v=yRJy4LfwS6E';
+const String _sampleVideoId = 'yRJy4LfwS6E';
 
 class VideoExperienceSection extends StatefulWidget {
   const VideoExperienceSection({super.key});
@@ -15,19 +15,11 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
 
   int _selectedIndex = 0;
 
-  YoutubePlayerController? _controller;
+  late final YoutubePlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initPlayer();
-    });
-  }
-
-  void _initPlayer() {
-    if (!mounted) return;
 
     _controller = YoutubePlayerController.fromVideoId(
       videoId: _sampleVideoId,
@@ -39,28 +31,26 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
         strictRelatedVideos: true,
       ),
     );
-
-    setState(() {});
   }
 
   void playVideo() {
-    _controller?.playVideo();
+    _controller.playVideo();
   }
 
   void pauseVideo() {
-    _controller?.pauseVideo();
+    _controller.pauseVideo();
   }
 
   @override
   void dispose() {
-    _controller?.close();
+    _controller.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+      padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -75,21 +65,13 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
 
           const SizedBox(height: 24),
 
-          if (_controller == null)
-            const AspectRatio(
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: AspectRatio(
               aspectRatio: 16 / 9,
-              child: Center(child: CircularProgressIndicator()),
-            )
-          else
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: YoutubePlayerScaffold(
-                controller: _controller!,
-                builder: (context, player) {
-                  return AspectRatio(aspectRatio: 16 / 9, child: player);
-                },
-              ),
+              child: YoutubePlayer(controller: _controller),
             ),
+          ),
 
           const SizedBox(height: 24),
 
