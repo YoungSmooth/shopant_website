@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../theme.dart';
 import '../utils/url_open_helper.dart';
@@ -187,7 +188,18 @@ class _HeroSectionState extends State<HeroSection>
               runSpacing: 12,
               children: [
                 FilledButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final Uri url = Uri.parse('https://www.shopant.io/order');
+
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(
+                        url,
+                        mode: LaunchMode.externalApplication,
+                      );
+                    } else {
+                      throw 'Could not launch $url';
+                    }
+                  },
                   style: FilledButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 26,
@@ -203,43 +215,43 @@ class _HeroSectionState extends State<HeroSection>
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 26,
-                      vertical: 18,
-                    ),
-                    side: const BorderSide(color: Colors.white24, width: 1.5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  child: const Text(
-                    'Try Shopant Live',
-                    style: TextStyle(fontSize: 16, color: Colors.white),
-                  ),
-                ),
-                TextButton.icon(
-                  onPressed: _openSampleVideo,
-                  icon: const Icon(
-                    Icons.play_circle_fill,
-                    size: 20,
-                    color: Colors.white,
-                  ),
-                  label: const Text('Watch sample'),
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.white12,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 18,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                ),
+                // OutlinedButton(
+                //   onPressed: () {},
+                //   style: OutlinedButton.styleFrom(
+                //     padding: const EdgeInsets.symmetric(
+                //       horizontal: 26,
+                //       vertical: 18,
+                //     ),
+                //     side: const BorderSide(color: Colors.white24, width: 1.5),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(14),
+                //     ),
+                //   ),
+                //   child: const Text(
+                //     'Try Shopant Live',
+                //     style: TextStyle(fontSize: 16, color: Colors.white),
+                //   ),
+                // ),
+                // TextButton.icon(
+                //   onPressed: _openSampleVideo,
+                //   icon: const Icon(
+                //     Icons.play_circle_fill,
+                //     size: 20,
+                //     color: Colors.white,
+                //   ),
+                //   label: const Text('Watch sample'),
+                //   style: TextButton.styleFrom(
+                //     foregroundColor: Colors.white,
+                //     backgroundColor: Colors.white12,
+                //     padding: const EdgeInsets.symmetric(
+                //       horizontal: 22,
+                //       vertical: 18,
+                //     ),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(14),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             const SizedBox(height: 28),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shopant_website/src/theme.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-
-const String _sampleVideoId = 'yRJy4LfwS6E';
 
 class VideoExperienceSection extends StatefulWidget {
   const VideoExperienceSection({super.key});
@@ -15,22 +14,20 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
 
   int _selectedIndex = 0;
 
-  YoutubePlayerController? _controller;
+  late final YoutubePlayerController _controller;
+
+  final Map<String, String> _videoIds = {
+    'Fashion': 'n0NJshpmyjQ',
+    'Beauty': 'AG5asgE6VFw',
+    'Electronics': 'zjj7hWZ7zc4',
+  };
 
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _initializePlayer();
-    });
-  }
-
-  void _initializePlayer() {
-    if (!mounted) return;
-
     _controller = YoutubePlayerController.fromVideoId(
-      videoId: _sampleVideoId,
+      videoId: _videoIds['Fashion']!,
       autoPlay: true,
       params: const YoutubePlayerParams(
         mute: true,
@@ -39,28 +36,39 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
         strictRelatedVideos: true,
       ),
     );
+  }
 
-    setState(() {});
+  void _onTabSelected(int index) {
+    final tab = _tabs[index];
+
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    final videoId = _videoIds[tab]!;
+
+    // THIS is the key fix (DO NOT recreate controller)
+    _controller.loadVideoById(videoId: videoId);
   }
 
   void playVideo() {
-    _controller?.playVideo();
+    _controller.playVideo();
   }
 
   void pauseVideo() {
-    _controller?.pauseVideo();
+    _controller.pauseVideo();
   }
 
   @override
   void dispose() {
-    _controller?.close();
+    _controller.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 80),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
       child: Column(
         children: [
           const Text(
@@ -76,11 +84,10 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
 
           const SizedBox(height: 20),
 
-          SizedBox(
+          const SizedBox(
             width: 760,
             child: Text(
-              'Explore real experiences. '
-              'Watch authentic videos from businesses, using shopant you.',
+              'Explore real experiences. Watch authentic videos from businesses, using shopant you.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
@@ -94,33 +101,21 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
 
           Wrap(
             spacing: 12,
-            runSpacing: 12,
-            alignment: WrapAlignment.center,
             children: List.generate(_tabs.length, (index) {
               final selected = index == _selectedIndex;
 
               return ChoiceChip(
-                label: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    _tabs[index],
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: selected ? Colors.black : Colors.white,
-                    ),
+                label: Text(
+                  _tabs[index],
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: selected ? Colors.white : Colors.white,
                   ),
                 ),
                 selected: selected,
-                selectedColor: Colors.white,
+                selectedColor: AppTheme.brandOrange,
                 backgroundColor: const Color(0xFF1A1A1A),
-                side: BorderSide(
-                  color: selected ? Colors.transparent : Colors.white12,
-                ),
-                onSelected: (_) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                },
+                onSelected: (_) => _onTabSelected(index),
               );
             }),
           ),
@@ -133,28 +128,11 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
               borderRadius: BorderRadius.circular(28),
               color: Colors.white.withOpacity(.04),
               border: Border.all(color: Colors.white.withOpacity(.08)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(.25),
-                  blurRadius: 40,
-                  spreadRadius: 2,
-                ),
-              ],
             ),
             padding: const EdgeInsets.all(18),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: _controller == null
-                  ? const AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: Center(child: CircularProgressIndicator()),
-                    )
-                  : YoutubePlayerScaffold(
-                      controller: _controller!,
-                      builder: (context, player) {
-                        return AspectRatio(aspectRatio: 16 / 9, child: player);
-                      },
-                    ),
+              child: YoutubePlayer(controller: _controller),
             ),
           ),
 
@@ -167,32 +145,12 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
                 onPressed: playVideo,
                 icon: const Icon(Icons.play_arrow),
                 label: const Text('Play'),
-                style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 28,
-                    vertical: 18,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                ),
               ),
-
               const SizedBox(width: 16),
-
               OutlinedButton.icon(
                 onPressed: pauseVideo,
                 icon: const Icon(Icons.pause),
                 label: const Text('Pause'),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 28,
-                    vertical: 18,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                ),
               ),
             ],
           ),
