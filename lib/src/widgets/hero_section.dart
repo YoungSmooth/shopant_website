@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme.dart';
-import '../utils/url_open_helper.dart';
 import 'shared_widgets.dart';
 
 class HeroSection extends StatefulWidget {
@@ -14,10 +13,6 @@ class HeroSection extends StatefulWidget {
 
 class _HeroSectionState extends State<HeroSection>
     with TickerProviderStateMixin {
-  static final Uri _sampleVideoUri = Uri.parse(
-    'https://youtu.be/yRJy4LfwS6E?si=KTEtweKOUfSu1C0Z',
-  );
-
   static const _headlineText =
       'Reduce cart abandonment by 45% and 3x your sales';
 
@@ -29,14 +24,6 @@ class _HeroSectionState extends State<HeroSection>
   late final Animation<double> _typewriterProgress;
   late final Animation<Offset> _rightSlideAnimation;
   late final Animation<double> _rightFadeAnimation;
-
-  Future<void> _openSampleVideo() async {
-    final opened = await openUrl(_sampleVideoUri.toString());
-    if (!opened) {
-      // ignore: avoid_print
-      print('Could not launch sample video');
-    }
-  }
 
   @override
   void initState() {
