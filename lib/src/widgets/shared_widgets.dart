@@ -651,7 +651,7 @@ class _FeatureCardState extends State<FeatureCard> {
               ),
               const SizedBox(height: 24),
               const Text(
-                'Learn more',
+                '',
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   color: AppTheme.brandOrange,

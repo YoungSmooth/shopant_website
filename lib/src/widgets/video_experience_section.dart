@@ -14,55 +14,117 @@
 
 //   int _selectedIndex = 0;
 
-//   late final YoutubePlayerController _controller;
-//   // https://youtu.be/cvJY3a7qcbQ?si=ZoFZDY-nHryWNxkD
 //   final Map<String, String> _videoIds = {
 //     'Fashion': 'cvJY3a7qcbQ',
 //     'Beauty': 'AG5asgE6VFw',
 //     'Electronics': 'zjj7hWZ7zc4',
 //   };
 
-//   @override
-//   void initState() {
-//     super.initState();
-
-//     _controller = YoutubePlayerController.fromVideoId(
-//       videoId: _videoIds['Fashion']!,
-//       autoPlay: true,
-//       params: const YoutubePlayerParams(
-//         mute: true,
-//         showControls: true,
-//         showFullscreenButton: true,
-//         strictRelatedVideos: true,
-//       ),
-//     );
-//   }
+//   String get _currentVideoId => _videoIds[_tabs[_selectedIndex]]!;
 
 //   void _onTabSelected(int index) {
-//     final tab = _tabs[index];
-
 //     setState(() {
 //       _selectedIndex = index;
 //     });
-
-//     final videoId = _videoIds[tab]!;
-
-//     // THIS is the key fix (DO NOT recreate controller)
-//     _controller.loadVideoById(videoId: videoId);
 //   }
 
-//   void playVideo() {
-//     _controller.playVideo();
-//   }
+//   void _openVideoPlayer() {
+//     showDialog(
+//       context: context,
+//       barrierDismissible: true,
+//       barrierColor: Colors.black.withOpacity(0.85),
+//       builder: (context) {
+//         final controller = YoutubePlayerController.fromVideoId(
+//           videoId: _currentVideoId,
+//           autoPlay: true,
+//           params: const YoutubePlayerParams(
+//             showControls: true,
+//             showFullscreenButton: true,
+//             mute: false,
+//           ),
+//         );
 
-//   void pauseVideo() {
-//     _controller.pauseVideo();
-//   }
+//         return Dialog(
+//           backgroundColor: Colors.transparent,
+//           insetPadding: const EdgeInsets.all(20),
+//           child: Stack(
+//             children: [
+//               // Click outside area
+//               GestureDetector(
+//                 onTap: () => Navigator.of(context).pop(),
+//                 child: Container(color: Colors.transparent),
+//               ),
 
-//   @override
-//   void dispose() {
-//     _controller.close();
-//     super.dispose();
+//               Center(
+//                 child: Container(
+//                   constraints: const BoxConstraints(maxWidth: 1200),
+//                   decoration: BoxDecoration(
+//                     color: Colors.black,
+//                     borderRadius: BorderRadius.circular(20),
+//                     border: Border.all(color: Colors.white24),
+//                   ),
+//                   child: Column(
+//                     mainAxisSize: MainAxisSize.min,
+//                     children: [
+//                       // HEADER BAR
+//                       Container(
+//                         padding: const EdgeInsets.symmetric(
+//                           horizontal: 16,
+//                           vertical: 10,
+//                         ),
+//                         decoration: BoxDecoration(
+//                           color: Colors.white.withOpacity(0.05),
+//                           borderRadius: const BorderRadius.vertical(
+//                             top: Radius.circular(20),
+//                           ),
+//                         ),
+//                         child: Row(
+//                           children: [
+//                             const Text(
+//                               '',
+//                               style: TextStyle(
+//                                 color: Colors.white,
+//                                 fontWeight: FontWeight.w600,
+//                               ),
+//                             ),
+
+//                             const Spacer(),
+
+//                             const Text(
+//                               'Close',
+//                               style: TextStyle(
+//                                 color: Colors.white54,
+//                                 fontSize: 12,
+//                               ),
+//                             ),
+
+//                             const SizedBox(width: 12),
+
+//                             IconButton(
+//                               onPressed: () => Navigator.of(context).pop(),
+//                               icon: const Icon(
+//                                 Icons.close,
+//                                 color: Colors.white,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+
+//                       // VIDEO
+//                       AspectRatio(
+//                         aspectRatio: 16 / 9,
+//                         child: YoutubePlayer(controller: controller),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
 //   }
 
 //   @override
@@ -87,7 +149,7 @@
 //           const SizedBox(
 //             width: 760,
 //             child: Text(
-//               'Explore real experiences. Watch authentic videos from businesses, using shopant.',
+//               'Explore real experiences before visiting. Watch how businesses use Shopant in real life.',
 //               textAlign: TextAlign.center,
 //               style: TextStyle(
 //                 fontSize: 18,
@@ -107,9 +169,9 @@
 //               return ChoiceChip(
 //                 label: Text(
 //                   _tabs[index],
-//                   style: TextStyle(
+//                   style: const TextStyle(
 //                     fontWeight: FontWeight.w600,
-//                     color: selected ? Colors.white : Colors.white,
+//                     color: Colors.white,
 //                   ),
 //                 ),
 //                 selected: selected,
@@ -122,37 +184,47 @@
 
 //           const SizedBox(height: 40),
 
-//           Container(
-//             constraints: const BoxConstraints(maxWidth: 1100),
-//             decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(28),
-//               color: Colors.white.withOpacity(.04),
-//               border: Border.all(color: Colors.white.withOpacity(.08)),
-//             ),
-//             padding: const EdgeInsets.all(18),
-//             child: ClipRRect(
-//               borderRadius: BorderRadius.circular(20),
-//               child: YoutubePlayer(controller: _controller),
+//           // PREVIEW CARD
+//           GestureDetector(
+//             onTap: _openVideoPlayer,
+//             child: Container(
+//               constraints: const BoxConstraints(maxWidth: 1100),
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(28),
+//                 color: Colors.white.withOpacity(.04),
+//                 border: Border.all(color: Colors.white.withOpacity(.08)),
+//               ),
+//               padding: const EdgeInsets.all(18),
+//               child: ClipRRect(
+//                 borderRadius: BorderRadius.circular(20),
+//                 child: Stack(
+//                   alignment: Alignment.center,
+//                   children: [
+//                     Image.network(
+//                       'https://img.youtube.com/vi/$_currentVideoId/maxresdefault.jpg',
+//                       fit: BoxFit.cover,
+//                       width: double.infinity,
+//                     ),
+
+//                     Container(color: Colors.black.withOpacity(0.35)),
+
+//                     const Icon(
+//                       Icons.play_circle_fill,
+//                       size: 80,
+//                       color: Colors.white,
+//                     ),
+//                   ],
+//                 ),
+//               ),
 //             ),
 //           ),
 
-//           const SizedBox(height: 30),
+//           const SizedBox(height: 20),
 
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               FilledButton.icon(
-//                 onPressed: playVideo,
-//                 icon: const Icon(Icons.play_arrow),
-//                 label: const Text('Play'),
-//               ),
-//               const SizedBox(width: 16),
-//               OutlinedButton.icon(
-//                 onPressed: pauseVideo,
-//                 icon: const Icon(Icons.pause),
-//                 label: const Text('Pause'),
-//               ),
-//             ],
+//           FilledButton.icon(
+//             onPressed: _openVideoPlayer,
+//             icon: const Icon(Icons.play_arrow),
+//             label: const Text('Play Video'),
 //           ),
 //         ],
 //       ),
@@ -182,6 +254,14 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
     'Electronics': 'zjj7hWZ7zc4',
   };
 
+  /// EXTRA VIDEO LIST (NEW SECTION)
+
+  final List<Map<String, String>> _extraVideos = [
+    {'title': 'Smart Recommendation', 'id': 'gNZIsByE6mM'},
+    {'title': 'Smart Add to Cart', 'id': 'ghqimkYYtV0'},
+    {'title': 'Full Video', 'id': 'TGCTGwI3hPQ'},
+  ];
+
   String get _currentVideoId => _videoIds[_tabs[_selectedIndex]]!;
 
   void _onTabSelected(int index) {
@@ -190,14 +270,14 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
     });
   }
 
-  void _openVideoPlayer() {
+  void _openVideo(String videoId) {
     showDialog(
       context: context,
       barrierDismissible: true,
       barrierColor: Colors.black.withOpacity(0.85),
       builder: (context) {
         final controller = YoutubePlayerController.fromVideoId(
-          videoId: _currentVideoId,
+          videoId: videoId,
           autoPlay: true,
           params: const YoutubePlayerParams(
             showControls: true,
@@ -208,81 +288,55 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
 
         return Dialog(
           backgroundColor: Colors.transparent,
-          insetPadding: const EdgeInsets.all(20),
-          child: Stack(
-            children: [
-              // Click outside area
-              GestureDetector(
-                onTap: () => Navigator.of(context).pop(),
-                child: Container(color: Colors.transparent),
+          insetPadding: const EdgeInsets.all(16),
+          child: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 1000),
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.white24),
               ),
-
-              Center(
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 1200),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.white24),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // HEADER BAR
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.05),
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // HEADER
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.05),
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Video Preview',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        child: Row(
-                          children: [
-                            const Text(
-                              '',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-
-                            const Spacer(),
-
-                            const Text(
-                              'Close',
-                              style: TextStyle(
-                                color: Colors.white54,
-                                fontSize: 12,
-                              ),
-                            ),
-
-                            const SizedBox(width: 12),
-
-                            IconButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              icon: const Icon(
-                                Icons.close,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
+                        const Spacer(),
+                        IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.close, color: Colors.white),
                         ),
-                      ),
-
-                      // VIDEO
-                      AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: YoutubePlayer(controller: controller),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: YoutubePlayer(controller: controller),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },
@@ -311,7 +365,7 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
           const SizedBox(
             width: 760,
             child: Text(
-              'Explore real experiences before visiting. Watch how businesses use Shopant in real life.',
+              'Explore real experiences before visiting. Watch how Shopant works in real time.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,
@@ -323,6 +377,7 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
 
           const SizedBox(height: 40),
 
+          /// ================= TABS =================
           Wrap(
             spacing: 12,
             children: List.generate(_tabs.length, (index) {
@@ -332,8 +387,8 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
                 label: Text(
                   _tabs[index],
                   style: const TextStyle(
-                    fontWeight: FontWeight.w600,
                     color: Colors.white,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 selected: selected,
@@ -346,9 +401,9 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
 
           const SizedBox(height: 40),
 
-          // PREVIEW CARD
+          /// ================= MAIN PREVIEW =================
           GestureDetector(
-            onTap: _openVideoPlayer,
+            onTap: () => _openVideo(_currentVideoId),
             child: Container(
               constraints: const BoxConstraints(maxWidth: 1100),
               decoration: BoxDecoration(
@@ -367,9 +422,7 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
                       fit: BoxFit.cover,
                       width: double.infinity,
                     ),
-
                     Container(color: Colors.black.withOpacity(0.35)),
-
                     const Icon(
                       Icons.play_circle_fill,
                       size: 80,
@@ -381,12 +434,76 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
             ),
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: 30),
 
           FilledButton.icon(
-            onPressed: _openVideoPlayer,
+            onPressed: () => _openVideo(_currentVideoId),
             icon: const Icon(Icons.play_arrow),
             label: const Text('Play Video'),
+          ),
+
+          const SizedBox(height: 50),
+
+          /// ================= EXTRA VIDEOS =================
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final isMobile = constraints.maxWidth < 700;
+
+              return Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                children: _extraVideos.map((video) {
+                  return GestureDetector(
+                    onTap: () => _openVideo(video['id']!),
+                    child: Container(
+                      width: isMobile ? double.infinity : 320,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(.04),
+                        borderRadius: BorderRadius.circular(18),
+                        border: Border.all(color: Colors.white12),
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Image.network(
+                                  'https://img.youtube.com/vi/${video['id']}/mqdefault.jpg',
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ),
+                                Container(
+                                  height: 120,
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                                const Icon(
+                                  Icons.play_circle_fill,
+                                  color: Colors.white,
+                                  size: 50,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            video['title']!,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              );
+            },
           ),
         ],
       ),
