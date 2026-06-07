@@ -18,27 +18,6 @@ class ExperienceSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Select the experience that transforms your storefront',
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'Choose the right experience type and watch Shopant optimize every shopper journey with premium commerce intelligence.',
-                style: TextStyle(fontSize: 17, color: Color(0xFFCBD5E1)),
-              ),
-              const SizedBox(height: 28),
-              Wrap(
-                spacing: 16,
-                runSpacing: 16,
-                children: const [
-                  ExperienceBadge(label: 'Fashion'),
-                  ExperienceBadge(label: 'Beauty'),
-                  ExperienceBadge(label: 'Electronics'),
-                  ExperienceBadge(label: 'Home'),
-                  ExperienceBadge(label: 'Lifestyle'),
-                ],
-              ),
               const SizedBox(height: 36),
               if (isNarrow) ...[
                 const SelectedExperienceCard(

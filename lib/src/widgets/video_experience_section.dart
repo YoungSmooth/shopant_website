@@ -87,7 +87,7 @@ class VideoExperienceSectionState extends State<VideoExperienceSection> {
           const SizedBox(
             width: 760,
             child: Text(
-              'Explore real experiences. Watch authentic videos from businesses, using shopant you.',
+              'Explore real experiences. Watch authentic videos from businesses, using shopant.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 18,

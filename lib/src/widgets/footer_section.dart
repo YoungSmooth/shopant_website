@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../theme.dart';
 import 'shared_widgets.dart';
@@ -44,7 +45,7 @@ class FooterSection extends StatelessWidget {
                         const SizedBox(height: 28),
                         const FooterColumn(
                           title: 'Product',
-                          items: ['Features', 'Pricing', 'Demo', 'Login'],
+                          items: ['Features', 'Pricing'],
                         ),
                         const SizedBox(height: 20),
                         const FooterColumn(
@@ -55,7 +56,7 @@ class FooterSection extends StatelessWidget {
                     )
                   : Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,13 +81,45 @@ class FooterSection extends StatelessWidget {
                             ],
                           ),
                         ),
-                        FooterColumn(
-                          title: 'Product',
-                          items: ['Features', 'Pricing', 'Demo', 'Login'],
+                        GestureDetector(
+                          onTap: () async {
+                            final Uri url = Uri.parse(
+                              'https://www.shopant.io/order',
+                            );
+
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(
+                                url,
+                                mode: LaunchMode.externalApplication,
+                              );
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                          child: FooterColumn(
+                            title: 'Product',
+                            items: ['Features', 'Pricing'],
+                          ),
                         ),
-                        FooterColumn(
-                          title: 'Company',
-                          items: ['About', 'Terms', 'Privacy', 'Contact'],
+                        GestureDetector(
+                          onTap: () async {
+                            final Uri url = Uri.parse(
+                              'https://www.shopant.io/order',
+                            );
+
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(
+                                url,
+                                mode: LaunchMode.externalApplication,
+                              );
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                          child: FooterColumn(
+                            title: 'Company',
+                            items: ['About', 'Terms', 'Privacy', 'Contact'],
+                          ),
                         ),
                       ],
                     ),

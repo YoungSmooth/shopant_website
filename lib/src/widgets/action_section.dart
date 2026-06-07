@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../theme.dart';
 
@@ -50,7 +51,20 @@ class ActionSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 28),
                     FilledButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final Uri url = Uri.parse(
+                          'https://www.shopant.io/order',
+                        );
+
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(
+                            url,
+                            mode: LaunchMode.externalApplication,
+                          );
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
                       style: FilledButton.styleFrom(
                         backgroundColor: AppTheme.brandOrange,
                         foregroundColor: Colors.white,
@@ -63,7 +77,7 @@ class ActionSection extends StatelessWidget {
                         ),
                       ),
                       child: const Text(
-                        'Book a demo',
+                        'Get Shopant',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -100,7 +114,20 @@ class ActionSection extends StatelessWidget {
                     ),
                     const SizedBox(width: 28),
                     FilledButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final Uri url = Uri.parse(
+                          'https://www.shopant.io/order',
+                        );
+
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(
+                            url,
+                            mode: LaunchMode.externalApplication,
+                          );
+                        } else {
+                          throw 'Could not launch $url';
+                        }
+                      },
                       style: FilledButton.styleFrom(
                         backgroundColor: AppTheme.brandOrange,
                         foregroundColor: Colors.white,
@@ -113,7 +140,7 @@ class ActionSection extends StatelessWidget {
                         ),
                       ),
                       child: const Text(
-                        'Book a demo',
+                        'Get Shopant',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,

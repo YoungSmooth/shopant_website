@@ -19,7 +19,7 @@ class TopNavigation extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/shopant-logo.png', height: 100),
+              Image.asset('assets/shopant-logo.png', height: 70),
               const Spacer(),
               Expanded(
                 child: Wrap(
