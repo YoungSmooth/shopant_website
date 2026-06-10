@@ -19,7 +19,7 @@ class TopNavigation extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/shopant-logo.png', height: 70),
+              Image.asset('assets/shopant-logo.png', height: 65),
               const Spacer(),
               Expanded(
                 child: Wrap(
@@ -28,9 +28,6 @@ class TopNavigation extends StatelessWidget {
                   spacing: 16,
                   runSpacing: 12,
                   children: [
-                    // const _NavItem('Product'),
-                    // const _NavItem('Insights'),
-                    // const _NavItem('Demo'),
                     ElevatedButton(
                       onPressed: () async {
                         final Uri url = Uri.parse(

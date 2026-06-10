@@ -25,14 +25,7 @@ class FooterSection extends StatelessWidget {
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Shopant',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
-                        ),
+                        Image.asset('assets/shopant-logo.png', height: 65),
                         const SizedBox(height: 14),
                         const Text(
                           'Modern commerce journeys for ambitious brands. Reduce abandonment, boost conversion, and make every shopper feel understood.',
@@ -41,16 +34,6 @@ class FooterSection extends StatelessWidget {
                             fontSize: 15,
                             height: 1.8,
                           ),
-                        ),
-                        const SizedBox(height: 28),
-                        const FooterColumn(
-                          title: 'Product',
-                          items: ['Features', 'Pricing'],
-                        ),
-                        const SizedBox(height: 20),
-                        const FooterColumn(
-                          title: 'Company',
-                          items: ['About', 'Terms', 'Privacy', 'Contact'],
                         ),
                       ],
                     )
@@ -61,14 +44,11 @@ class FooterSection extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Shopant',
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
+                              Image.asset(
+                                'assets/shopant-logo.png',
+                                height: 65,
                               ),
+
                               SizedBox(height: 14),
                               Text(
                                 'Modern commerce journeys for ambitious brands. Reduce abandonment, boost conversion, and make every shopper feel understood.',
@@ -79,46 +59,6 @@ class FooterSection extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            final Uri url = Uri.parse(
-                              'https://www.shopant.io/order',
-                            );
-
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(
-                                url,
-                                mode: LaunchMode.externalApplication,
-                              );
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                          child: FooterColumn(
-                            title: 'Product',
-                            items: ['Features', 'Pricing'],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            final Uri url = Uri.parse(
-                              'https://www.shopant.io/order',
-                            );
-
-                            if (await canLaunchUrl(url)) {
-                              await launchUrl(
-                                url,
-                                mode: LaunchMode.externalApplication,
-                              );
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                          child: FooterColumn(
-                            title: 'Company',
-                            items: ['About', 'Terms', 'Privacy', 'Contact'],
                           ),
                         ),
                       ],

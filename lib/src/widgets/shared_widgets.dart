@@ -445,7 +445,7 @@ class SelectedExperienceChart extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 _JourneyChip(label: 'Search starts broad'),
-                SizedBox(height: 16),
+                SizedBox(height: 10),
                 _JourneyStripe(label: 'Matched categories', value: '95%'),
                 SizedBox(height: 10),
                 _JourneyStripe(
@@ -470,7 +470,7 @@ class _JourneyChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white24,
         borderRadius: BorderRadius.circular(999),
